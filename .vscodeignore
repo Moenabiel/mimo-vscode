@@ -1,0 +1,34 @@
+# Files to exclude from the VSIX package
+
+# Source code (only include compiled output)
+src/**
+webview/components/**
+webview/hooks/**
+webview/styles/**
+webview/app.tsx
+webview/index.html
+
+# Build tools
+scripts/**
+tsconfig.json
+
+# Node modules (dependencies bundled or not needed)
+node_modules/**
+
+# Dev files
+.vscode/**
+.gitignore
+*.map
+*.d.ts
+*.d.ts.map
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Include only what's needed
+!out/**
+!webview/dist/**
+!assets/**
+!package.json

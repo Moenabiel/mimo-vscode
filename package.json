@@ -1,0 +1,230 @@
+{
+  "name": "mimo-code",
+  "displayName": "MiMo Code",
+  "description": "AI coding assistant powered by MiMo — chat, edit, and build from your sidebar",
+  "version": "0.1.0",
+  "publisher": "xiaomi-mimo",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Programming Languages", "AI", "Chat"],
+  "keywords": ["ai", "coding", "agent", "mimo", "assistant"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mimo-activity-bar",
+          "title": "MiMo Code",
+          "icon": "assets/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "mimo-activity-bar": [
+        {
+          "type": "webview",
+          "id": "mimo.chat",
+          "name": "MiMo Chat"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "mimo.newChat",
+        "title": "MiMo: New Chat",
+        "icon": "$(add)"
+      },
+      {
+        "command": "mimo.stop",
+        "title": "MiMo: Stop Generation",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "mimo.addToChat",
+        "title": "MiMo: Add to Chat",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "mimo.addTerminalOutputToChat",
+        "title": "MiMo: Add Terminal Output to Chat"
+      },
+      {
+        "command": "mimo.explainCode",
+        "title": "MiMo: Explain Code"
+      },
+      {
+        "command": "mimo.fixCode",
+        "title": "MiMo: Fix Code"
+      },
+      {
+        "command": "mimo.improveCode",
+        "title": "MiMo: Improve Code"
+      },
+      {
+        "command": "mimo.refactorCode",
+        "title": "MiMo: Refactor Code"
+      },
+      {
+        "command": "mimo.writeTests",
+        "title": "MiMo: Write Tests"
+      },
+      {
+        "command": "mimo.documentCode",
+        "title": "MiMo: Document Code"
+      },
+      {
+        "command": "mimo.openSettings",
+        "title": "MiMo: Open Settings"
+      },
+      {
+        "command": "mimo.selectModel",
+        "title": "MiMo: Select Model"
+      },
+      {
+        "command": "mimo.exportSession",
+        "title": "MiMo: Export Session"
+      },
+      {
+        "command": "mimo.switchSession",
+        "title": "MiMo: Switch Session"
+      },
+      {
+        "command": "mimo.clearAllSessions",
+        "title": "MiMo: Clear All Sessions"
+      }
+    ],
+    "configuration": {
+      "title": "MiMo Code",
+      "properties": {
+        "mimo.path": {
+          "type": "string",
+          "default": "",
+          "description": "Path to MiMo Code binary. Leave empty for auto-detect."
+        },
+        "mimo.autoApproveReads": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-approve file read operations."
+        },
+        "mimo.autoApproveTerminal": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto-approve terminal command execution."
+        },
+        "mimo.defaultModel": {
+          "type": "string",
+          "default": "",
+          "description": "Default model to use (leave empty for MiMo Auto)."
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "mimo.addToChat",
+        "key": "ctrl+'",
+        "mac": "cmd+'",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "mimo.chat.focus",
+        "key": "ctrl+shift+'",
+        "mac": "cmd+shift+'"
+      },
+      {
+        "command": "mimo.stop",
+        "key": "ctrl+shift+backspace",
+        "mac": "cmd+shift+backspace",
+        "when": "mimo:running"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "mimo.explainCode",
+          "when": "editorHasSelection",
+          "group": "mimo@1"
+        },
+        {
+          "command": "mimo.fixCode",
+          "when": "editorHasSelection",
+          "group": "mimo@2"
+        },
+        {
+          "command": "mimo.improveCode",
+          "when": "editorHasSelection",
+          "group": "mimo@3"
+        },
+        {
+          "command": "mimo.refactorCode",
+          "when": "editorHasSelection",
+          "group": "mimo@4"
+        },
+        {
+          "command": "mimo.writeTests",
+          "when": "editorHasSelection",
+          "group": "mimo@5"
+        },
+        {
+          "command": "mimo.documentCode",
+          "when": "editorHasSelection",
+          "group": "mimo@6"
+        }
+      ],
+      "commandPalette": [
+        { "command": "mimo.newChat" },
+        { "command": "mimo.stop" },
+        { "command": "mimo.addToChat" },
+        { "command": "mimo.explainCode" },
+        { "command": "mimo.fixCode" },
+        { "command": "mimo.improveCode" },
+        { "command": "mimo.refactorCode" },
+        { "command": "mimo.writeTests" },
+        { "command": "mimo.documentCode" },
+        { "command": "mimo.openSettings" },
+        { "command": "mimo.selectModel" },
+        { "command": "mimo.exportSession" }
+      ],
+      "view/title": [
+        {
+          "command": "mimo.newChat",
+          "when": "view == mimo.chat",
+          "group": "navigation"
+        },
+        {
+          "command": "mimo.openSettings",
+          "when": "view == mimo.chat",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "npm run build:ext && npm run build:webview",
+    "build:ext": "tsc -p tsconfig.json",
+    "build:webview": "node scripts/build-webview.js",
+    "watch": "npm run watch:ext & npm run watch:webview",
+    "watch:ext": "tsc -watch -p tsconfig.json",
+    "watch:webview": "node scripts/build-webview.js --watch",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.0",
+    "react-syntax-highlighter": "^15.5.0",
+    "eventsource": "^2.0.2"
+  }
+}
