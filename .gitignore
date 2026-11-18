@@ -13,4 +13,5 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
-.pytest_cache/*.vsix
+.pytest_cache/
+# mimo-code-0.1.0.vsix is intentionally tracked so it can be installed without a build step
